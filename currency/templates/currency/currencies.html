@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+{% block content %}
+
+<h5 style="margin-top: 5px;">Available Currencies:</h5>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">S No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Ticker</th>
+            <th scope="col">Network</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cur in data %}
+        <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{cur.name}}</td>
+            <td>{{cur.ticker}}</td>
+            <td>{{cur.network}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+{% endblock content %}
