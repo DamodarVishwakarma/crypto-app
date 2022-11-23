@@ -24,13 +24,13 @@ class UserSignUpView(CreateView):
 
 
 class AdminUserView(CreateView):
-    model = User
+    
     form_class = AdminUserForm
     template_name = 'accounts/register.html'
-    success_url = reverse_lazy('login')
+    
 
     def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'admin'
+        kwargs['user_type'] = 'Admin User'
         return super().get_context_data(**kwargs)
 
 
@@ -54,6 +54,6 @@ def logout(request):
 
 class LoginView(View):
 	model = User
+	success_url = reverse_lazy('home')
 	form_class = LoginForm
 	template_name = 'accounts/login.html'
-	success_url = reverse_lazy('home')
