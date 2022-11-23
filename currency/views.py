@@ -1,6 +1,5 @@
 from django.shortcuts import render
 import requests
-from tabulate import tabulate
 
 def home(request):
     return render(request, 'home.html')
@@ -13,7 +12,7 @@ def currency(request):
     }
 
     response = requests.request("GET", url, headers=headers).json()[0:30]
-    
+    # breakpoint()
     return render(request, 'currency/currencies.html', context={'data':response})
     
 
