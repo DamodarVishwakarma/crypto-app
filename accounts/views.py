@@ -1,59 +1,52 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
+from .forms import SignUpForm, LoginForm
 from django.contrib.auth import authenticate, login
-from accounts.models import user_type, User
-from django.views.generic import CreateView, View
-from accounts.forms import UserSignUpForm, AdminUserForm, LoginForm
-from django.urls import reverse_lazy
-from django.contrib import auth
-from django.contrib.auth.decorators import login_required
+# Create your views here.
 
 
-class UserSignUpView(CreateView):
-    model = User
-    form_class = UserSignUpForm
-    template_name = 'accounts/register.html'
-
-    def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'User'
-        return super().get_context_data(**kwargs)
-
-    def form_valid(self, form):
-        user = form.save()
-        return redirect('login')
+def index(request):
+    return render(request, 'index.html')
 
 
-
-class AdminUserView(CreateView):
-    
-    form_class = AdminUserForm
-    template_name = 'accounts/register.html'
-    
-
-    def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'Admin User'
-        return super().get_context_data(**kwargs)
-
-
-    def form_valid(self, form):
-        user = form.save()
-        return redirect('login')
-
-
-def home(request):
-    if request.user.is_authenticated:
-        return redirect('pet_list')
+def register(request):
+    msg = None
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            msg = 'user created'
+            return redirect('login_view')
+        else:
+            msg = 'form is not valid'
     else:
-        return render(request, 'home.html')
+        form = SignUpForm()
+    return render(request,'accounts/register.html', {'form': form, 'msg': msg})
 
 
-@login_required(login_url="login")
-def logout(request):
-    auth.logout(request)
-    return redirect("login")
+def login_view(request):
+    form = LoginForm(request.POST or None)
+    msg = None
+    if request.method == 'POST':
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None and user.is_admin:
+                login(request, user)
+                return redirect('adminpage')
+            elif user is not None and user.is_user:
+                login(request, user)
+                return redirect('user')
+            else:
+                msg= 'invalid credentials'
+        else:
+            msg = 'error validating form'
+    return render(request, 'accounts/login.html', {'form': form, 'msg': msg})
 
 
-class LoginView(View):
-	model = User
-	success_url = reverse_lazy('home')
-	form_class = LoginForm
-	template_name = 'accounts/login.html'
+def admin(request):
+    return render(request,'admin.html')
+
+
+def user(request):
+    return render(request,'home.html')

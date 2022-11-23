@@ -3,16 +3,61 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-8 col-sm-10 col-12">
-      <h2>Sign up as a {{ user_type }}</h2>
-      <form method="post" novalidate>
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-success">Sign up</button>
-      </form>
+<div class="content">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 contents">
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div class="form-block">
+                <div class="mb-4">
+                    <h1>Registration page</h1>
+              </div>
+                <span class="mb-0 text-muted">
+              {% if msg %}
+                  {{ msg | safe }}
+              {% endif %}
+            </span>
+              <form  method="post">
+                  {% csrf_token %}
+                <div class="form-group first">
+                  <label for="username">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="form-group first">
+                  <label for="email">Email</label>
+                    {{ form.email}}
+                </div>
+                <div class="form-group last mb-4">
+                  <label for="password">Password</label>
+                    {{ form.password1 }}
+                </div>
+                <div class="form-group last mb-4">
+                  <label for="password">confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+                <small> select your role: </small>
+                <div class="d-flex mb-5 align-items-center">
+                  <label class="control control--checkbox mb-0"><span class="caption">Admin</span>
+                      {{ form.is_admin }}
+                    <div class="control__indicator"></div>
+                  </label>
+                </div>
+                <div class="d-flex mb-5 align-items-center">
+                  <label class="control control--checkbox mb-0"><span class="caption">user</span>
+                      {{ form.is_user }}
+                    <div class="control__indicator"></div>
+                  </label>
+                </div>
+                  <span class="text-error">{{ form.errors }}</span>
+                <input type="submit"  value="Register" class="btn btn-pill text-white btn-block btn-primary">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
 {% endblock content %}
-
