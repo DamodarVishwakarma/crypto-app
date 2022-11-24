@@ -1,59 +1,64 @@
 {% extends "home.html" %}
 
-{% block content %}      
+{% block content %}
 
 {% load crispy_forms_tags %}
 
-<!--Login--> 
-<div class="content">
-  <div class="container">
-    <div class="row justify-content-center">
-      <!-- <div class="col-md-6 order-md-2">
-        <img src="images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">
-      </div> -->
-      <div class="col-md-6 contents">
-        <div class="row justify-content-center">
-          <div class="col-md-12">
-            <div class="form-block">
-                <div class="mb-4">
-              </div>
+<!--Login-->
+<div class="row">
+  <div class="col-md-4">
+  </div>
+  <div class="col-md-4">
 
-            <span class="mb-0 text-muted">
-              {% if msg %}
-                  {{ msg | safe }}
-              {% else %}
-                  Login page
-              {% endif %}
-            </span>
-              <form  method="post">
-                  {% csrf_token %}
-                <div class="form-group first">
-                  <label for="username">Username</label>
-                    {{ form.username }}
-                </div>
-                <div class="form-group last mb-4">
-                  <label for="username">Password</label>
-                  {{ form.password }}
-                </div>
-
-                <div class="d-flex mb-5 align-items-center">
-                  <label class="control control--checkbox mb-0"><span class="caption">Remember me</span>
-                    <input type="checkbox" checked="checked"/>
-                    <div class="control__indicator"></div>
-                  </label>
-                  <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
-                </div>
-
-                <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
-              </form>
-            </div>
+    {% if otp %}
+    <form method="POST">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="border-bottom display">
+          <h3 class="float-left">Verify Your Email</h3>
+        </legend>
+        <input type="hidden" name="usr" value="{{usr.username}}">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">OTP</span>
           </div>
+          <input type="text" class="form-control" placeholder="Enter Your OTP" aria-label="OTP"
+            aria-describedby="basic-addon1" name='otp'>
         </div>
+
+      </fieldset>
+      <div class="form-grounp">
+        <button class="btn mainbtn" type="submit">Verify</button>
+        <small class="float-right text-muted"><i><a href="#" class="text-dark"
+              onclick="ReSendOTP('{{usr.username}}', 'resendOTPmess')"><i id="resendOTPmess">Resend</i> OTP</a></small>
 
       </div>
 
-    </div>
+    </form>
+    {% else %}
+    <form method="POST">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="border-bottom display">
+          <h3 class="float-left">Login</h3>
+        </legend>
+
+        {{ form|crispy }}
+      </fieldset>
+      <div class="form-grounp">
+        <button class="btn mainbtn" type="submit">Log In</button>
+        <small class="float-right text-muted"><a href="#" class="text-dark"> Forgotten
+            Password?</a></small>
+
+      </div>
+
+    </form>
+    {% endif %}
+    <br>
+  </div>
+  <div class="col-md">
   </div>
 </div>
+
 
 {% endblock content %}
