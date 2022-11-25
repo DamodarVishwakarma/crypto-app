@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
-from django.contrib.auth import authenticate, login
 from accounts.models import User, UserOTP
 from django.contrib import messages
 import random
+from currency.models import Wallet
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-#https://dev.to/iiits-iota/paytm-payment-gateway-integration-in-django-1657
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'index.html')
@@ -44,11 +45,12 @@ def signup(request):
 			usr.save()
 			usr_otp = random.randint(1000, 9999)
 			UserOTP.objects.create(user = usr, otp = usr_otp)
+			Wallet.objects.create(user = usr)
 
 			mess = f"Hello {usr.first_name},\nYour OTP is {usr_otp}\nThanks!"
 
 			send_mail(
-				"Welcome to Crypto - Verify Your Email",
+				"Welcome to My Crypto App - Verify Your Email",
 				mess,
 				settings.EMAIL_HOST_USER,
 				[usr.email],
@@ -112,6 +114,11 @@ def login_view(request):
 
 	form = AuthenticationForm()
 	return render(request, 'accounts/login.html', {'form': form})
+
+@login_required
+def logout_user(request):
+    logout(request)
+    return redirect("home")
 
 
 def admin(request):

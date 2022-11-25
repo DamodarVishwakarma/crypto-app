@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+{% block content %}
+<div class="text-center">
+
+<table class="table">
+    <legend>MY WALLET</legend>
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Created on</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">{{wallet.user.first_name}}</th>
+            <td>{{wallet.user.username}}</td>
+            <td><strong>{{wallet.balance}} Rs</strong></td>
+            <td>{{wallet.created}}</td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+{% endblock content %}

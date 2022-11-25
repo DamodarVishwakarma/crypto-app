@@ -1,14 +1,17 @@
 {% extends 'home.html' %}
 {% block content %}
-
+{% if user.is_authenticated %}
+<a type="button" style="margin-right: 57px; margin-top: 5px;" class="btn btn-sm btn-warning float-right" href="{% url 'wallet' %}">Wallet</a>
+{% endif %}
 <h5 style="margin-top: 5px;">Available Currencies:</h5>
 <table class="table table-striped">
     <thead>
         <tr>
             <th scope="col">S No</th>
             <th scope="col">Name</th>
-            <th scope="col">Ticker</th>
-            <th scope="col">Network</th>
+            <th scope="col">Coin</th>
+            <th scope="col">Price</th>
+            <th scope="col">Invest</th>
         </tr>
     </thead>
     <tbody>
@@ -16,12 +19,13 @@
         <tr>
             <th scope="row">{{forloop.counter}}</th>
             <td>{{cur.name}}</td>
-            <td>{{cur.ticker}}</td>
-            <td>{{cur.network}}</td>
+            <td>{{cur.coin}}</td>
+            <td>{{cur.price}}</td>
+            <td><button class="btn btn-sm btn-primary">invest</button></td>
         </tr>
         {% endfor %}
     </tbody>
-
 </table>
+
 
 {% endblock content %}

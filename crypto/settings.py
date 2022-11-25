@@ -129,9 +129,19 @@ AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_REDIRECTED_URL = '/'
 
+# smtp configuration
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'vdamodar700@gmail.com'
 EMAIL_HOST_PASSWORD = 'jopwrslybkignlvp'
+
+# paytm gateway configuration
+
+PAYTM_MERCHANT_ID = '<your_merchant_id>'
+PAYTM_SECRET_KEY = '<your_paytm_secret_key>'
+PAYTM_WEBSITE = 'WEBSTAGING'
+PAYTM_CHANNEL_ID = 'WEB'
+PAYTM_INDUSTRY_TYPE_ID = 'Retail'
