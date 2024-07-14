@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated or user.is_superuser %}
 <a type="button" style="margin-right: 57px; margin-top: 5px;" class="btn btn-sm btn-warning float-right" href="{% url 'wallet' %}">Wallet</a>
 {% endif %}
 <h5 style="margin-top: 5px;">Available Currencies:</h5>
